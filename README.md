@@ -32,30 +32,26 @@ git clone https://github.com/tu_usuario/gestor-activos.git
 cd gestor-activos
 
 \\Instala las dependencias.\\
--EDentor de la carpeta que visualiza 
+-Dentor de la carpeta que guarda el repositorio ejecute el siguiente comando
 -pip install -r requirements.txt
 
 
+BASE DE DATOS
+-Configura la base de datos en el archivo settings.py.
 
-Configura la base de datos en el archivo settings.py.
-python
-Copy code
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.sqlite',
         'NAME': 'nombre_base_de_datos',
-        'USER': 'usuario',
-        'PASSWORD': 'contraseña',
-        'HOST': 'localhost',
-        'PORT': '5432',
     }
 }
-Aplica las migraciones.
-bash
-Copy code
+
+PARA CORRER LA APLICACION
+
+-Dentro de powershelll ejecuta los comandos:
+python manage.py makemigration
 python manage.py migrate
-Inicia el servidor.
-bash
-Copy code
+
+-Inicia el servidor.
 python manage.py runserver
 Accede a la aplicación en tu navegador: http://localhost:8000
