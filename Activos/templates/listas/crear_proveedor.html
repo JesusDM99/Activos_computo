@@ -1,0 +1,25 @@
+{% extends "baseventanas.html" %}
+
+{% block titulo %}{% endblock %}
+{% block contenido %}
+<div class="card">
+    <div class="card-header">
+        Agregar Proveedor
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="col" style="color: #ced4da;">
+                <input class="btn btn-outline-secondary" type="submit" value="Guardar">
+            </div>
+        </form>
+        {% if proveedor_guardado %}
+            <script>
+                // Cierra la ventana emergente si la ciudad se guardó correctamente
+                window.close();
+            </script>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

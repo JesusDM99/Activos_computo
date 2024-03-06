@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+
+<form enctype="multipart/form-data" method="post" class="col-md-12"> 
+    {% csrf_token %}
+    <style>
+        /* Estilo para el contenedor del campo de formulario */
+        .form-field-container {
+            margin-bottom: 1rem;
+            color: #144686; /* Ajusta según sea necesario */
+        }
+
+        /* Estilo para la etiqueta del formulario */
+        .form-label {
+            font-weight: bold;
+            color: #535151; /* Color del texto */
+        }
+
+        /* Estilo para el cuadro desplegable */
+        .form-select {
+            width: 100%; /* Hace que el cuadro desplegable ocupe el 100% del ancho del contenedor */
+            padding: 8px;
+            border: 1px solid #144686;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+    <div class="row">
+        {% for campo in formulario %}
+            {% if campo.name != 'proveedor' and campo.name != 'fecha_compra' and campo.name != 'fecha_vigencia' and campo.name != 'estado' and campo.name != 'tipos_licencia' %}
+                <div class="col-md-6 mb-3">
+                    <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+                    <input 
+                        type="{{ campo.field.widget.input_type }}" 
+                        class="form-control" 
+                        name="{{ campo.name }}" 
+                        aria-describedby="helpId" 
+                        placeholder="{{ campo.label }}" 
+                        value="{{ campo.value | default:'' }}" 
+                    />
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="col-md-6 mb-3">
+            <label for="{{ formulario.fecha_vigencia.id_for_label }}" class="form-label">Fecha Vigencia</label>
+            <input
+                type="{{ formulario.fecha_vigencia.field.widget.input_type }}"
+                class="form-control"
+                name="{{ formulario.fecha_vigencia.name }}"
+                aria-describedby="helpId"
+                placeholder="{{ formulario.fecha_vigencia.label }}"
+                value="{{ formulario.fecha_vigencia.value|date:'Y-m-d'}}"
+            />
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="{{ formulario.fecha_compra.id_for_label }}" class="form-label">Fecha Compra</label>
+            <input
+                type="{{ formulario.fecha_compra.field.widget.input_type }}"
+                class="form-control"
+                name="{{ formulario.fecha_compra.name }}"
+                aria-describedby="helpId"
+                placeholder="{{ formulario.fecha_compra.label }}"
+                value="{{ formulario.fecha_compra.value|date:'Y-m-d'}}"
+            />
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="{{ formulario.estado.id_for_label }}" class="form-label">Estado</label>
+            <div class="form-check form-switch">
+                {{ formulario.estado }}
+            </div>
+        </div>
+        <div class="col-md-12 mb-3">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <!-- codigo para mostrar los activos en una lista de seleccion -->
+                    <label for="{{ formulario.Id_tipos_licencia.id_for_label }}" class="form-label">Tipo Licencia</label>
+                    <div class="card">
+                        {{ formulario.tipos_licencia }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="{{ campo.Id_proveedor.id_for_label }}" class="form-label">Proveedor</label>
+            <div class="card">
+                {{ formulario.proveedor }}
+            </div>
+            <a name="" id="proveedor-button" class="btn" role="button">
+                <i class="bi bi-plus-square-fill"style="font-size: 1.5rem; color: cornflowerblue;"></i>
+            </a>
+            <script>
+                function abrirVentanaProveedor() {
+                    const width = 600; const height = 400;
+                    const left = (window.innerWidth - width) / 2; const top = (window.innerHeight - height) / 2;
+                     window.open("{% url 'crear_proveedor' %}", "Agregar proveedor", `width=${width},height=${height},left=${left},top=${top}`);
+                    return false;
+                }
+                const proveedorButton = document.getElementById("proveedor-button");
+                proveedorButton.addEventListener("click", abrirVentanaProveedor);
+            </script>
+        </div>
+    </div>
+    <div>
+        <div class="card">
+            <input class="btn" type="submit" value="Enviar Informacion">
+        </div>
+        <br>
+    </div>
+
+</form>
+

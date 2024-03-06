@@ -1,0 +1,192 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+
+<form enctype="multipart/form-data" method="post" class="col-md-12">
+    {% csrf_token %}
+    
+    <style>
+        /* Estilo para el contenedor del campo de formulario */
+        .form-field-container {
+            margin-bottom: 1rem;
+            color: #144686; /* Ajusta según sea necesario */
+        }
+
+        /* Estilo para la etiqueta del formulario */
+        .form-label {
+            font-weight: bold;
+            color: #535151; /* Color del texto */
+        }
+
+        /* Estilo para el cuadro desplegable */
+        .form-select {
+            width: 100%; /* Hace que el cuadro desplegable ocupe el 100% del ancho del contenedor */
+            padding: 8px;
+            border: 1px solid #144686;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+    <div class="row">
+        {% for campo in formulario %}
+            {% if campo.name != 'licencia' and campo.name != 'fecha_compra'  and campo.name != 'garantia' and campo.name != 'acta' and campo.name != 'evento' and campo.name != 'proveedor' and campo.name != 'marca' and campo.name != 'estado' and campo.name != 'condicion' and  campo.name != 'usuario' and campo.name != 'tipos_activos' and campo.name != 'ubicacion' %}
+                <div class="col-md-6 mb-3">
+                    <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+                    <input
+                        type="{{ campo.field.widget.input_type }}"
+                        class="form-control"
+                        name="{{ campo.name }}"
+                        aria-describedby="helpId"
+                        id="{{ campo.id_for_label }}" 
+                        placeholder="{{ campo.label }}"
+                        value="{{ campo.value | default:'' }}"
+                    />
+                </div>
+            {% endif %}
+        {% endfor %}
+      
+        <div class="col-md-6 mb-3">
+            <label for="{{ formulario.garantia.id_for_label }}" class="form-label">Vencimiento Garantia</label>
+            <input
+                type="{{ formulario.garantia.field.widget.input_type }}"
+                class="form-control"
+                name="{{ formulario.garantia.name }}"
+                aria-describedby="helpId"
+                placeholder="{{ formulario.garantia.label }}"
+                value="{{ formulario.garantia.value|date:'Y-m-d'}}"
+            />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="{{ formulario.fecha_compra.id_for_label }}" class="form-label">Fecha Compra</label>
+            <input
+                type="{{ formulario.fecha_compra.field.widget.input_type }}"
+                class="form-control"
+                name="{{ formulario.fecha_compra.name }}"
+                aria-describedby="helpId"
+                placeholder="{{ formulario.fecha_compra.label }}"
+                value="{{ formulario.fecha_compra.value|date:'Y-m-d'}}"
+            />
+        </div>
+
+        <div class="col-md-12 mb-3">
+            <label for="{{ formulario.evento.id_for_label }}" class="form-label">Eventos</label>
+            <div class="card">
+                {{ formulario.evento }}
+            </div>
+        </div>
+        
+        <div class="col-md-12 mb-3">
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ formulario.marca.id_for_label }}" class="form-label">Marca</label>
+                    <div class="card">
+                        {{ formulario.marca }}
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ formulario.condicion.id_for_label }}" class="form-label">Condicion</label>
+                    <div class="card">
+                        {{ formulario.condicion }}
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ formulario.licencia.id_for_label }}" class="form-label">Licencia</label>
+                    <div class="card">
+                        {{ formulario.licencia }}
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ formulario.estado.id_for_label }}" class="form-label">Estado</label>
+                    <div class="card">
+                        {{ formulario.estado }}
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ formulario.usuario.id_for_label }}" class="form-label">Usuario</label>
+                    <div class="card" >
+                        {{ formulario.usuario }}
+                    </div>
+                </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="{{ formulario.tipos_activos.id_for_label }}" class="form-label">Tipo</label>
+        <div class="card">
+            {{ formulario.tipos_activos }}
+        </div>
+        <a name="" id="tipos-button" class="btn" role="button">
+            <i class="bi bi-plus-square-fill"></i>
+        </a>
+        <script>
+            // Define una función para abrir la ventana emergente
+            function abrirVentanaTipos() {
+                const width = 600;
+                const height = 400;
+                const left = (window.innerWidth - width) / 2;
+                const top = (window.innerHeight - height) / 2;
+                window.open("{% url 'crear_tipos_activos' %}", "Agregar Tipo", `width=${width},height=${height},left=${left},top=${top}`);
+                return false;
+            }
+            const TiposButton = document.getElementById("tipos-button");
+            TiposButton.addEventListener("click", abrirVentanaTipos);
+        </script>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="{{ formulario.ubicacion.id_for_label }}" class="form-label">Ubicaciones</label>
+        <div class="card">
+            {{ formulario.ubicacion }}
+        </div>
+        <a name="" id="ubicacion-button" class="btn" role="button"><i class="bi bi-plus-square-fill"></i></a>
+        <script>
+            // Define una función para abrir la ventana emergente
+            function abrirVentanaUbicacion() {
+                const width = 600;
+                const height = 400;
+                const left = (window.innerWidth - width) / 2;
+                const top = (window.innerHeight - height) / 2;
+                window.open("{% url 'crear_ubicacion' %}", "Agregar Ubicación", `width=${width},height=${height},left=${left},top=${top}`);
+                return false;
+            }
+
+            const UbicacionButton = document.getElementById("ubicacion-button");
+            UbicacionButton.addEventListener("click", abrirVentanaUbicacion);
+        </script>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="{{ formulario.proveedor.id_for_label }}" class="form-label">Proveedor</label>
+        <div class="card">
+            {{ formulario.proveedor }}
+        </div>    
+        <a name="" id="proveedor-button" class="btn" role="button"><i class="bi bi-plus-square-fill"></i></a> 
+        <script>
+            // Define una función para abrir la ventana emergente
+            function abrirVentanaProveedor() {
+                const width = 600;
+                const height = 400;
+                const left = (window.innerWidth - width) / 2;
+                const top = (window.innerHeight - height) / 2;
+                window.open("{% url 'crear_proveedor' %}", "Agregar Proveedor", `width=${width},height=${height},left=${left},top=${top}`);
+                return false;
+            }
+            const ProveedorButton = document.getElementById("proveedor-button");
+            ProveedorButton.addEventListener("click", abrirVentanaProveedor);
+        </script>
+    </div>
+    </div>
+
+    <div class="col-12 help-text">{{ campo.errors }} </div>
+
+    <div>
+        <div class="card">
+            <input class="btn" type="submit" value="Enviar Informacion">
+        </div>
+        <br>
+    </div>
+</form>
+
